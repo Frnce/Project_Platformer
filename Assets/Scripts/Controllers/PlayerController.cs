@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameManager gameManager;
     public PlayerModel playerModel;
     //For Player Movement
     public float movementSpeed = 5f;
@@ -12,13 +13,11 @@ public class PlayerController : MonoBehaviour
     public float jumpTime = 0.3f;
     private float jumpTimeCounter;
     //To check if grounded
-    bool isGrounded;
     public Transform groundCheck;
     public float groundRadius;
     public LayerMask whatIsGround;
 
     private Rigidbody2D rb2d;
-    private SpriteRenderer spriteRenderer;
     Animator anim;
     //INPUTS
     private float xInput;
@@ -26,37 +25,81 @@ public class PlayerController : MonoBehaviour
     private bool jumpInputDown;
     private bool jumpInput;
     private bool jumpInputUp;
-    private bool crouchInput;
 
     //Checker
+    bool isGrounded = false;
     bool isJumping = false;
     bool isMoving = false;
-    bool isCrouching = false;
-	// Use this for initialization
-	void Start ()
+    bool isFalling = false;
+    bool isFacingRight = true;
+
+    bool canMove = true;
+    [HideInInspector]
+    public bool isAlive = true;
+
+    float speedForce;
+
+    //For Knockback
+    public Vector2 knockBack;
+    public float knockBackLength;
+    [HideInInspector]
+    public float knockBackCount;
+    [HideInInspector]
+    public bool knockFromRight;
+
+    //For Player Attack Setting
+    private float timeBetweenAttack;
+    [Tooltip("startTimeBetweenAttack")]
+    public float startTimeBetweenAttack;
+
+    // Use this for initialization
+    void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        transform.position = gameManager.lastCheckPointPosition;
+
         rb2d = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         GetInput();
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+        timeBetweenAttack = startTimeBetweenAttack;
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         GetInput();
-
-        spriteRenderer.flipX = rb2d.velocity.x < 0 ? true : false;
 
         PlayerAttack();
         PlayerJump();
-        PlayerCrouch();
+
+        PlayerDeath();
     }
     private void FixedUpdate()
     {
-       if(!isCrouching)
+        if (knockBackCount <= 0)
         {
-            PlayerMovement();
+            if (canMove)
+            {
+                PlayerMovement();
+            }
+            else
+            {
+                rb2d.velocity = Vector2.zero;
+            }
+        }
+        else
+        {
+            if (knockFromRight)
+            {
+                rb2d.velocity = new Vector2(-knockBack.x, knockBack.y);
+            }
+            if (!knockFromRight)
+            {
+                rb2d.velocity = new Vector2(knockBack.x, knockBack.y);
+            }
+
+            knockBackCount -= Time.deltaTime;
         }
     }
     private void PlayerJump()
@@ -85,17 +128,6 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
     }
-    private void PlayerCrouch()
-    {
-        if (crouchInput)
-        {
-            isCrouching = true;
-        }
-        else
-        {
-            isCrouching = false;
-        }
-    }
     void GetInput()
     {
         xInput = Input.GetAxisRaw("Horizontal");
@@ -106,13 +138,13 @@ public class PlayerController : MonoBehaviour
 
         attackInput = Input.GetKeyDown(KeyCode.K);
 
-        crouchInput = Input.GetKey(KeyCode.S);
-
         SetAnimations();
     }
     void PlayerMovement()
     {
-        if(xInput != 0)
+        speedForce = isGrounded ? movementSpeed : movementSpeed * 0.6f; //try to make it more readable. its for reducing the air movement when after jumping .
+                                                                        //speedForce = movementSpeed;
+        if (xInput != 0)
         {
             isMoving = true;
         }
@@ -120,21 +152,75 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = false;
         }
-        rb2d.velocity = new Vector2(Mathf.Lerp(0, xInput * movementSpeed, 0.8f), rb2d.velocity.y);
+
+        if (xInput > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (xInput < 0 && isFacingRight)
+        {
+            Flip();
+        }
+
+        if (rb2d.velocity.y < -0.1)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
+
+        rb2d.velocity = new Vector2(Mathf.Lerp(0, xInput * speedForce, 0.8f), rb2d.velocity.y);
     }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
     void PlayerAttack()
     {
-        if (attackInput)
+        if (timeBetweenAttack <= 0)
+        {
+            if (attackInput)
+            {
+                StartCoroutine(IPlayerGroundAttack());
+                timeBetweenAttack = startTimeBetweenAttack;
+            }
+        }
+        else
+        {
+            timeBetweenAttack -= Time.deltaTime;
+        }
+    }
+    IEnumerator IPlayerGroundAttack()
+    {
+        if (isGrounded)
+        {
+            canMove = false;
+            anim.SetTrigger("Attack_1");
+
+            yield return new WaitForSeconds(startTimeBetweenAttack);
+
+            canMove = true;
+        }
+        else
         {
             anim.SetTrigger("Attack_1");
+
+            yield return new WaitForSeconds(startTimeBetweenAttack);
         }
     }
     void SetAnimations()
     {
-        anim.SetFloat("xMove", xInput);
         anim.SetBool("isMoving", isMoving);
         anim.SetBool("isGrounded", isGrounded);
-        anim.SetBool("isCrouching", isCrouching);
+        anim.SetBool("isFalling", isFalling);
     }
 
     public void PlayerHit(float damage)
@@ -143,6 +229,32 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerDeath()
     {
+        if (playerModel.health <= 0)
+        {
+            isAlive = false;
+            gameObject.SetActive(false);
 
+        }
+    }
+    //On Moving platform behavior
+    private void OnCollisionEnter2D(Collision2D collision) // For setting player when its on a moving platform
+    {
+        if (collision.transform.CompareTag("MovingPlatforms"))
+        {
+            transform.parent = collision.transform;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision) // For setting player when its OUT of the moving platform
+    {
+        if (collision.transform.CompareTag("MovingPlatforms"))
+        {
+            transform.parent = null;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
     }
 }

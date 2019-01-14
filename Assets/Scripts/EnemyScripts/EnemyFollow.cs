@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyFollow : EnemyController
 {
+    private PlayerController player;
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
+    }
     private void FixedUpdate()
     {
         EnemyMove();

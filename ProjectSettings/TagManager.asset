@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - MovingPlatforms
+  - FallingPlatforms
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -39,11 +42,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
   - name: Environment
     uniqueID: 348970487
     locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: Enemy
+    uniqueID: 3507087665
     locked: 0
   - name: Player
     uniqueID: 3210110631

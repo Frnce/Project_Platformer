@@ -5,5 +5,6 @@ using UnityEngine;
 public class EnemyModel
 {
     public string Name;
-    public float Health;
+    public float health;
+    public float damage;
 }
