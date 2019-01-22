@@ -69,10 +69,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetInput();
-
         PlayerAttack();
         PlayerJump();
-
+    }
+    private void LateUpdate()
+    {
         PlayerDeath();
     }
     private void FixedUpdate()
@@ -142,7 +143,7 @@ public class PlayerController : MonoBehaviour
     }
     void PlayerMovement()
     {
-        speedForce = isGrounded ? movementSpeed : movementSpeed * 0.6f; //try to make it more readable. its for reducing the air movement when after jumping .
+        //speedForce = isGrounded ? movementSpeed : movementSpeed * 0.6f; //try to make it more readable. its for reducing the air movement when after jumping .
                                                                         //speedForce = movementSpeed;
         if (xInput != 0)
         {
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
             isFalling = false;
         }
 
-        rb2d.velocity = new Vector2(Mathf.Lerp(0, xInput * speedForce, 0.8f), rb2d.velocity.y);
+        rb2d.velocity = new Vector2(Mathf.Lerp(0, xInput * movementSpeed, 0.8f), rb2d.velocity.y);
     }
 
     private void Flip()
@@ -233,7 +234,6 @@ public class PlayerController : MonoBehaviour
         {
             isAlive = false;
             gameObject.SetActive(false);
-
         }
     }
     //On Moving platform behavior

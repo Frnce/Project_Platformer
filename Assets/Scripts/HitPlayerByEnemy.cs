@@ -13,14 +13,16 @@ public class HitPlayerByEnemy : MonoBehaviour
     private float hitCooldown;
     bool isHit = false;
 
+    Collider2D collider2D;
+    Rigidbody2D rb2d;
     // Use this for initialization
     void Start ()
     {
         player = FindObjectOfType<PlayerController>();
         enemy = GetComponent<EnemyController>();
-
+        collider2D = GetComponent<Collider2D>();
         damage = enemy.enemyModel.damage;
-
+        rb2d = GetComponent<Rigidbody2D>();
         hitCooldown = maxHitCooldown;
     }
     private void Update()
@@ -33,6 +35,11 @@ public class HitPlayerByEnemy : MonoBehaviour
                 isHit = false;
                 hitCooldown = maxHitCooldown;
             }
+        }
+        if (enemy.IsDead())
+        {
+            rb2d.isKinematic = true;
+            collider2D.enabled = false;
         }
     }
 

@@ -8,6 +8,7 @@ TagManager:
   - MovingPlatforms
   - FallingPlatforms
   - GameManager
+  - Collectible
   layers:
   - Default
   - TransparentFX

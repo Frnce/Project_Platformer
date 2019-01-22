@@ -6,23 +6,17 @@ public class EnemyController : MonoBehaviour
 {
     public EnemyModel enemyModel;
     public float movementSpeed = 5f;
-
-	// Use this for initialization
-	void Start ()
-    {
-
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    public bool IsDead()
     {
         if (enemyModel.health <= 0)
         {
-            //Play animation first before destroying the object
-            Destroy(gameObject);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
-
     public void EnemyHit(float damage)
     {
         //This is where you put all the special effect when hit\

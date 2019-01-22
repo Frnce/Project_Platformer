@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class LifeGauge : MonoBehaviour
 {
-    public int health;
     public int maxHealth;
 
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite EmptyHeart;
+
+    private int health;
 
     private void Start()
     {
