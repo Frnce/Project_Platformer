@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LifeGauge : MonoBehaviour
+public class BossLifeGauge : MonoBehaviour
 {
     public Image[] hearts;
     public Sprite fullHeart;
-    public Sprite EmptyHeart;
+    public Sprite emptyHeart;
+
     [HideInInspector]
     public int maxHealth;
-
     private int health;
 
-    private void Start()
+	// Use this for initialization
+	void Start ()
     {
-        maxHealth = int.Parse(gameObject.GetComponent<PlayerController>().playerModel.health.ToString());
-    }
-    private void Update()
+        maxHealth = int.Parse(gameObject.GetComponent<BossController>().enemyModel.health.ToString());
+	}
+	// Update is called once per frame
+	void Update ()
     {
-        health = int.Parse(gameObject.GetComponent<PlayerController>().playerModel.health.ToString());
-        if (health > maxHealth)
+	    health = int.Parse(gameObject.GetComponent<BossController>().enemyModel.health.ToString());
+        if(health > maxHealth)
         {
-            health = maxHealth; 
+            health = maxHealth;
         }
-
         for (int i = 0; i < hearts.Length; i++)
         {
-            if(i  < health)
+            if (i < health)
             {
                 hearts[i].sprite = fullHeart;
             }
             else
             {
-                hearts[i].sprite = EmptyHeart;
+                hearts[i].sprite = emptyHeart;
             }
-
+            
             if(i < maxHealth)
             {
                 hearts[i].enabled = true;
