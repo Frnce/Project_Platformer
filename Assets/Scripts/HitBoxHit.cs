@@ -9,11 +9,15 @@ public class HitBoxHit : MonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
         {
             collision.GetComponent<EnemyController>().EnemyHit(player.playerModel.attack);
+        }
+        else if (collision.CompareTag("Boss"))
+        {
+            collision.GetComponent<BossController>().EnemyHit(player.playerModel.attack);
         }
     }
 }

@@ -82,7 +82,10 @@ public class PlayerController : MonoBehaviour
         {
             if (canMove)
             {
-                PlayerMovement();
+                if (gameManager.isInputValid())
+                {
+                    PlayerMovement();
+                }
             }
             else
             {

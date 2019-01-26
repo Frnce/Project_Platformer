@@ -518,6 +518,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 114401273945441094, guid: 7b5489060b6e08d4eaad52f4a40bd378,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1414909389}
     - target: {fileID: 114330790833573016, guid: 7b5489060b6e08d4eaad52f4a40bd378,
         type: 2}
       propertyPath: hearts.Array.data[0]
@@ -618,11 +623,6 @@ Prefab:
       propertyPath: hearts.Array.data[19]
       value: 
       objectReference: {fileID: 1467524700}
-    - target: {fileID: 114401273945441094, guid: 7b5489060b6e08d4eaad52f4a40bd378,
-        type: 2}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1414909389}
     - target: {fileID: 1230433164659236, guid: 7b5489060b6e08d4eaad52f4a40bd378, type: 2}
       propertyPath: m_Name
       value: Boss

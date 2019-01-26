@@ -8,6 +8,8 @@ public class BossController : MonoBehaviour
     public GameObject healthBar;
     private bool isStarted = false;
     Animator anim;
+
+    private bool isDead = false;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -17,13 +19,26 @@ public class BossController : MonoBehaviour
     }
     private void Update()
     {
-       
+        CheckIsDead();
     }
-
+    public void EnemyHit(float damage)
+    {
+        //This is where you put all the special effect when hit\
+        enemyModel.health -= damage;
+        Debug.Log("Enemy has been Hit");
+    }
     public void StartBossBattle()
     {
         isStarted = true;
         anim.SetBool("isStarted", isStarted);
         healthBar.SetActive(true);
+    }
+
+    void CheckIsDead()
+    {
+        if(enemyModel.health <= 0)
+        {
+            isDead = true;
+        }
     }
 }

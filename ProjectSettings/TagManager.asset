@@ -9,6 +9,7 @@ TagManager:
   - FallingPlatforms
   - GameManager
   - Collectible
+  - Boss
   layers:
   - Default
   - TransparentFX
