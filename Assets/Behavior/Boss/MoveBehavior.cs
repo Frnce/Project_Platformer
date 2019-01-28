@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkBehavior : StateMachineBehaviour
+public class MoveBehavior : StateMachineBehaviour
 {
-    public float timer;
+    private float timer;
     public float minTime;
     public float maxTime;
+
+    public Vector2 minDistance;
 
     public float speed;
 
@@ -26,9 +28,10 @@ public class WalkBehavior : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        float distanceBetweenMin = Vector2.Distance(minDistance, animator.transform.position);
         if (timer <= 0)
         {
-            animator.SetBool("isIdle",true);
+            animator.SetBool("isIdle", true);
         }
         else
         {
@@ -37,7 +40,14 @@ public class WalkBehavior : StateMachineBehaviour
 
         if (randomWalkPattern == 0)
         {
-            rb2d.velocity = Vector2.left * speed;
+            if (distanceBetweenMin <= 1f)
+            {
+                rb2d.velocity = Vector2.right * speed;
+            }
+            else
+            {
+                rb2d.velocity = Vector2.left * speed;
+            }
         }
         else
         {

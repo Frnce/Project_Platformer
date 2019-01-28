@@ -5,6 +5,12 @@ using UnityEngine;
 public class HitBoxHit : MonoBehaviour
 {
     private PlayerController player;
+    public Vector2 knockBack;
+    public float knockBackLength;
+    [HideInInspector]
+    public float knockBackCount;
+    [HideInInspector]
+    public bool knockFromRight;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();

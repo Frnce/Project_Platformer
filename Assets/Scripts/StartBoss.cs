@@ -6,9 +6,11 @@ public class StartBoss : MonoBehaviour
 {
     BossController boss;
     GameManager gameManager;
+    PlayerController player;
 	// Use this for initialization
 	void Start ()
     {
+        player = FindObjectOfType<PlayerController>();
         gameManager = FindObjectOfType<GameManager>();
         boss = FindObjectOfType<BossController>();
 	}
@@ -24,8 +26,6 @@ public class StartBoss : MonoBehaviour
     {
         boss.StartBossBattle();
         GetComponent<BoxCollider2D>().enabled = false;
-        gameManager.acceptUserInput = false;
         yield return new WaitForSeconds(1f);
-        gameManager.acceptUserInput = true;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IdleBehavior : StateMachineBehaviour
 {
-    public float timer;
+    private float timer;
     public float minTime;
     public float maxTime;
 
@@ -22,11 +22,11 @@ public class IdleBehavior : StateMachineBehaviour
         {
             if(randomAction == 0)
             {
-                animator.SetTrigger("Walk");
+                animator.SetTrigger("Jump");
             }
             else
             {
-                animator.SetTrigger("Attack");
+                animator.SetTrigger("Move");
             }
         }
         else

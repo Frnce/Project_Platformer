@@ -8,18 +8,18 @@ public class BossController : MonoBehaviour
     public GameObject healthBar;
     private bool isStarted = false;
     Animator anim;
+    PlayerController player;
 
     private bool isDead = false;
     private void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         anim = GetComponent<Animator>();
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
     }
     private void Update()
     {
         CheckIsDead();
+        LookAtPlayer();
     }
     public void EnemyHit(float damage)
     {
@@ -40,5 +40,18 @@ public class BossController : MonoBehaviour
         {
             isDead = true;
         }
+    }
+    void LookAtPlayer()
+    {
+        Vector3 theScale = transform.localScale;
+        if (player.transform.position.x > transform.position.x)
+        {
+            theScale.x = 1;
+        }
+        else
+        {
+            theScale.x = -1;
+        }
+        transform.localScale = theScale;
     }
 }

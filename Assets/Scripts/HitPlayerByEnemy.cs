@@ -8,7 +8,6 @@ public class HitPlayerByEnemy : MonoBehaviour
     public PlayerController player;
     [HideInInspector]
     public EnemyController enemy;
-
     public float maxHitCooldown = 0.5f;
     private float hitCooldown;
     bool isHit = false;
@@ -42,7 +41,6 @@ public class HitPlayerByEnemy : MonoBehaviour
             collider2D.enabled = false;
         }
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))

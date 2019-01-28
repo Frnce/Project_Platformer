@@ -2,46 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkBehavior : StateMachineBehaviour
-{
-    public float timer;
-    public float minTime;
-    public float maxTime;
+public class JumpBehavior : StateMachineBehaviour {
 
-    public float speed;
+    Rigidbody2D rb2d;
 
-    private Rigidbody2D rb2d;
-
-    private float randomWalkPattern; // for forward and backward movement
-    private float randomAction;
+    public float jumpForce;
+    public float maxJumpTime;
+    private float jumpTime;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timer = Random.Range(minTime, maxTime);
-        randomWalkPattern = Random.Range(0, 2);
-        randomAction = Random.Range(0, 2);
         rb2d = animator.GetComponent<Rigidbody2D>();
+        jumpTime = maxJumpTime;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (timer <= 0)
-        {
-            animator.SetBool("isIdle",true);
-        }
-        else
-        {
-            timer -= Time.deltaTime;
-        }
 
-        if (randomWalkPattern == 0)
+        while (jumpTime > 0)
         {
-            rb2d.velocity = Vector2.left * speed;
-        }
-        else
-        {
-            rb2d.velocity = Vector2.right * speed;
+            jumpTime -= Time.deltaTime;
+            if(jumpTime <= 0)
+            {
+                jumpTime = maxJumpTime;
+                animator.SetBool("isIdle", true);
+                break;
+            }
+            else
+            {
+                rb2d.velocity = Vector2.up * jumpForce;
+            }
         }
     }
 
@@ -50,5 +41,4 @@ public class WalkBehavior : StateMachineBehaviour
     {
 
     }
-
 }

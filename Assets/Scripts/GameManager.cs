@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     public Vector2 lastCheckPointPosition;
     PlayerController player;
-    public bool acceptUserInput = true;
     private void Awake()
     {
         if(instance == null)
@@ -51,17 +50,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
-    public bool isInputValid()
-    {
-        if (acceptUserInput)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 }
