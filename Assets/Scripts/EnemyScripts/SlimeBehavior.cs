@@ -8,10 +8,9 @@ public class SlimeBehavior : EnemyController
     //private Rigidbody2D rb2d;
     public Transform[] points = null;
     private Transform currentPoint;
-    private int pointSelection = 0;
+    //private int pointSelection = 0;
 
-    private bool isDead = false;
-    private bool isMoving = false;
+    //private bool isMoving = false;
     private bool isFacingRight = false;
  	// Use this for initialization
 	void Start ()
@@ -39,7 +38,6 @@ public class SlimeBehavior : EnemyController
 
         if (IsDead())
         {
-            isDead = true;
             StartCoroutine(DeadRoutine());
         }
 	}

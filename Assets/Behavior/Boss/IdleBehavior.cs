@@ -12,21 +12,34 @@ public class IdleBehavior : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        randomAction = Random.Range(0, 2);
+        randomAction = Random.Range(0, 4);
         timer = Random.Range(minTime, maxTime);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        timer -= Time.deltaTime;
         if (timer <= 0)
         {
             if(randomAction == 0)
             {
                 animator.SetTrigger("Jump");
             }
-            else
+            if(randomAction == 1)
             {
                 animator.SetTrigger("Move");
+            }
+            if(randomAction == 2)
+            {
+                animator.SetTrigger("attack1");
+            }
+            if(randomAction == 3)
+            {
+                animator.SetTrigger("attack2");
+            }
+            if(randomAction == 4)
+            {
+                animator.SetTrigger("attack3");
             }
         }
         else

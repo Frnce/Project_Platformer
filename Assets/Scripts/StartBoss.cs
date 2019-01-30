@@ -5,13 +5,9 @@ using UnityEngine;
 public class StartBoss : MonoBehaviour
 {
     BossController boss;
-    GameManager gameManager;
-    PlayerController player;
 	// Use this for initialization
 	void Start ()
     {
-        player = FindObjectOfType<PlayerController>();
-        gameManager = FindObjectOfType<GameManager>();
         boss = FindObjectOfType<BossController>();
 	}
     private void OnTriggerEnter2D(Collider2D collision)

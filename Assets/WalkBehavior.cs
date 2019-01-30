@@ -13,13 +13,11 @@ public class WalkBehavior : StateMachineBehaviour
     private Rigidbody2D rb2d;
 
     private float randomWalkPattern; // for forward and backward movement
-    private float randomAction;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = Random.Range(minTime, maxTime);
         randomWalkPattern = Random.Range(0, 2);
-        randomAction = Random.Range(0, 2);
         rb2d = animator.GetComponent<Rigidbody2D>();
     }
 

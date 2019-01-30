@@ -12,7 +12,7 @@ public class HitPlayerByEnemy : MonoBehaviour
     private float hitCooldown;
     bool isHit = false;
 
-    Collider2D collider2D;
+    new Collider2D collider2D;
     Rigidbody2D rb2d;
     // Use this for initialization
     void Start ()

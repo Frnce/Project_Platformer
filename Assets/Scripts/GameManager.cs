@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public Vector2 lastCheckPointPosition;
     PlayerController player;
+    BossController boss;
     private void Awake()
     {
         if(instance == null)
@@ -26,22 +27,33 @@ public class GameManager : MonoBehaviour
     void Start ()
     {
         player = FindObjectOfType<PlayerController>();
+        boss = FindObjectOfType<BossController>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
         CheckIfPlayerIsDead();
-        RestartScene();
+        if (!player.isAlive)
+        {
+            RestartScene();
+        }
 	}
 
     private void CheckIfPlayerIsDead()
     {
         if (!player.isAlive)
         {
-            Debug.Log("Player Dead, Please Restart Stage");
-            Time.timeScale = 0f;
+            Debug.Log("Player Dead, Press BackSpace to Restart Stage");
             // show restart round UI
+        }
+    }
+    void CheckIfGameOver()
+    {
+        if (boss.isDead)
+        {
+            Debug.Log("Game Over. .  Thanks for Playing. Press BackSpace to Restart Game");
+            lastCheckPointPosition = new Vector2(0, 0.5075328f);
         }
     }
 
@@ -49,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("GreyBox");
         }
     }
 }

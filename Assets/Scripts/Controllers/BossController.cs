@@ -7,10 +7,12 @@ public class BossController : MonoBehaviour
     public EnemyModel enemyModel;
     public GameObject healthBar;
     private bool isStarted = false;
+
     Animator anim;
     PlayerController player;
 
-    private bool isDead = false;
+    [HideInInspector]
+    public bool isDead = false;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -39,6 +41,7 @@ public class BossController : MonoBehaviour
         if(enemyModel.health <= 0)
         {
             isDead = true;
+            anim.SetBool("isDead", isDead);
         }
     }
     void LookAtPlayer()

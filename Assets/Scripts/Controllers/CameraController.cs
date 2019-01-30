@@ -4,41 +4,34 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform lookAt;
+    private Vector2 velocity;
 
-    public float xBound = 2.0f;
-    public float yBound = 1.5f;
+    public GameObject player;
 
-    private void LateUpdate()
+    public float smoothTimeY;
+    public float smoothTimeX;
+
+    public Vector2 cameraOffset;
+
+    public Vector2 minPosition;
+    public Vector2 maxPosition;
+
+    private void FixedUpdate()
     {
-        Vector3 delta = Vector3.zero;
+        float posX = Mathf.SmoothDamp(transform.position.x, player.transform.position.x, ref velocity.x, smoothTimeX);
+        float posY = Mathf.SmoothDamp(transform.position.y, player.transform.position.y, ref velocity.y, smoothTimeY);
 
-        float xDistance = lookAt.position.x - transform.position.x;
-        if(xDistance > xBound || xDistance < -xBound)
+
+        transform.position = new Vector3(posX + cameraOffset.x, posY + cameraOffset.y, transform.position.z);
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minPosition.x, maxPosition.x), Mathf.Clamp(transform.position.y, minPosition.y, maxPosition.y),transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("CameraTrigger"))
         {
-            if (transform.position.x < lookAt.position.x)
-            {
-                delta.x = xDistance - xBound;
-            }
-            else
-            {
-                delta.x = xDistance + xBound;
-            }
-        }
-
-        float yDistance = lookAt.position.y - transform.position.y;
-        if (yDistance > yBound || yDistance < -yBound)
-        {
-            if (transform.position.y < lookAt.position.y)
-            {
-                delta.y = yDistance - yBound;
-            }
-            else
-            {
-                delta.y = yDistance + yBound;
-            }
-        }
-
-        transform.position = transform.position + delta;
+            cameraOffset.y = 0;
+        }   
     }
 }
