@@ -51,4 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b48e77f0c902d4c93fb54f703ad59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastCheckPointPosition: {x: -7.790221, y: 0.1167321}
+  gameOverCanvass: {fileID: 0}
+  lastCheckPointPosition: {x: 0, y: 0.50753284}

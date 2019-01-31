@@ -52,14 +52,14 @@ public class GameManager : MonoBehaviour
     {
         if (boss.isDead)
         {
-            Debug.Log("Game Over. .  Thanks for Playing. Press BackSpace to Restart Game");
+            Debug.Log("Game Over. .  Thanks for Playing. Press Enter to Restart Game");
             lastCheckPointPosition = new Vector2(0, 0.5075328f);
         }
     }
 
     private void RestartScene()
     {
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("GreyBox");
         }

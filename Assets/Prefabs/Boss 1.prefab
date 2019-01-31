@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114330790833573016}
   - component: {fileID: 114401273945441094}
   - component: {fileID: 95117240045716596}
+  - component: {fileID: 114629643635778054}
   m_Layer: 0
   m_Name: Boss 1
   m_TagString: Boss
@@ -42,6 +43,7 @@ GameObject:
   - component: {fileID: 4159617853531998}
   - component: {fileID: 58761403117901850}
   - component: {fileID: 61477323395368040}
+  - component: {fileID: 114795636130904420}
   m_Layer: 0
   m_Name: Weapon Hitbox
   m_TagString: Untagged
@@ -69,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1230433164659236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 205.14, y: 0, z: 0}
+  m_LocalPosition: {x: 211.43, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4159617853531998}
@@ -87,7 +89,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 50
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -102,7 +104,7 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1424107411522510}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -230,6 +232,36 @@ MonoBehaviour:
     health: 20
     damage: 1
   healthBar: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: f6b4d6bcddb83574ba933766748542c7, type: 3}
+  isDead: 0
+--- !u!114 &114629643635778054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1230433164659236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e985c2834637647a8211cea5dc0fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  boss: {fileID: 114401273945441094}
+  maxHitCooldown: 0.5
+--- !u!114 &114795636130904420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1424107411522510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e985c2834637647a8211cea5dc0fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  boss: {fileID: 114401273945441094}
+  maxHitCooldown: 0.5
 --- !u!212 &212047712479771746
 SpriteRenderer:
   m_ObjectHideFlags: 1

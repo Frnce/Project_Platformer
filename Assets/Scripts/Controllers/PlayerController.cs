@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     public float groundRadius;
     public LayerMask whatIsGround;
 
+    public AudioClip jumpSound;
+    public AudioClip attackSound;
+    public AudioClip hurtSound;
+
+    public GameObject gameOverScreen;
+
     private Rigidbody2D rb2d;
     Animator anim;
     //INPUTS
@@ -110,6 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
+            SoundManager.instance.PlaySingle(jumpSound);
             rb2d.velocity = Vector2.up * jumpForce;
         }
         if (jumpInput && isJumping)
@@ -190,6 +197,7 @@ public class PlayerController : MonoBehaviour
         {
             if (attackInput)
             {
+                SoundManager.instance.PlaySingle(attackSound);
                 StartCoroutine(IPlayerGroundAttack());
                 timeBetweenAttack = startTimeBetweenAttack;
             }
@@ -226,12 +234,14 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerHit(float damage)
     {
+        SoundManager.instance.PlaySingle(hurtSound);
         playerModel.health -= damage;
     }
     public void PlayerDeath()
     {
         if (playerModel.health <= 0)
         {
+            gameOverScreen.SetActive(true);
             isAlive = false;
             gameObject.SetActive(false);
         }

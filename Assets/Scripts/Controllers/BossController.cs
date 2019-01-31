@@ -8,6 +8,8 @@ public class BossController : MonoBehaviour
     public GameObject healthBar;
     private bool isStarted = false;
 
+    public AudioClip hurtSound;
+
     Animator anim;
     PlayerController player;
 
@@ -26,6 +28,7 @@ public class BossController : MonoBehaviour
     public void EnemyHit(float damage)
     {
         //This is where you put all the special effect when hit\
+        SoundManager.instance.PlaySingle(hurtSound);
         enemyModel.health -= damage;
         Debug.Log("Enemy has been Hit");
     }
